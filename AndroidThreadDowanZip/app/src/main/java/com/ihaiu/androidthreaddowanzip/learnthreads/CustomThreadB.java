@@ -1,4 +1,4 @@
-package com.ihaiu.androidthreaddowanzip.com.ihaiu.androidthreaddowanzip.learnthreads;
+package com.ihaiu.androidthreaddowanzip.learnthreads;
 
 import android.content.Context;
 import android.os.Handler;

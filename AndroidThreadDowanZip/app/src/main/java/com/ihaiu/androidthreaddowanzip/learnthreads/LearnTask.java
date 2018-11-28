@@ -1,4 +1,4 @@
-package com.ihaiu.androidthreaddowanzip.com.ihaiu.androidthreaddowanzip.learnthreads;
+package com.ihaiu.androidthreaddowanzip.learnthreads;
 
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +23,7 @@ public class LearnTask
 
     public Button startButton;
     public Button cancelButton;
+    public Button stopButton;
     public ProgressBar progressBar;
     public TextView progressText;
     public TextView resultText;
@@ -31,18 +32,22 @@ public class LearnTask
     {
         startButton = context.findViewById(R.id.startButton);
         cancelButton = context.findViewById(R.id.cancelButton);
+        stopButton = context.findViewById(R.id.stopButton);
         progressBar = context.findViewById(R.id.progressBar);
         progressText = context.findViewById(R.id.progressText);
         resultText = context.findViewById(R.id.resutText);
 
-        task = new MyTask();
         startButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
 //                task.execute(300);
-                task.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, 300);
+                if(task == null)
+                {
+                    task = new MyTask();
+                    task.executeOnExecutor(AsyncTask.SERIAL_EXECUTOR, 300);
+                }
             }
         });
 
@@ -51,7 +56,10 @@ public class LearnTask
             @Override
             public void onClick(View v)
             {
-                task.cancel(true);
+                if(task != null)
+                {
+                    task.cancel(true);
+                }
             }
         });
         return this;
@@ -66,7 +74,7 @@ public class LearnTask
         @Override
         protected void onPreExecute()
         {
-            resultText.setVisibility(View.GONE);
+            setButtonState(false);
             progressBar.setProgress(0);
             progressText.setText("");
         }
@@ -104,28 +112,38 @@ public class LearnTask
         @Override
         protected void onPostExecute(Integer integer)
         {
-            resultText.setVisibility(View.VISIBLE);
             resultText.setText(String.format("执行结果: %d", integer));
+            task = null;
+            setButtonState(true);
         }
 
         @Override
         protected void onCancelled(Integer integer)
         {
-            resultText.setVisibility(View.VISIBLE);
             resultText.setText(String.format("取消执行，当前结果: %d", integer));
+            task = null;
+            setButtonState(true);
         }
 
         @Override
         protected void onCancelled()
         {
-            resultText.setVisibility(View.VISIBLE);
             resultText.setText(String.format("取消执行"));
+            task = null;
+            setButtonState(true);
         }
 
         @Override
         protected void finalize() throws Throwable
         {
             super.finalize();
+        }
+
+
+        private void setButtonState(boolean startEnable) {
+            startButton.setEnabled(startEnable);
+            cancelButton.setEnabled(!startEnable);
+            stopButton.setEnabled(!startEnable);
         }
     }
 

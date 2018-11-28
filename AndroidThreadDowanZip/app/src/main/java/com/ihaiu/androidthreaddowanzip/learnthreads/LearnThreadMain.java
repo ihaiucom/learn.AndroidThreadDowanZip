@@ -1,10 +1,6 @@
-package com.ihaiu.androidthreaddowanzip.com.ihaiu.androidthreaddowanzip.learnthreads;
+package com.ihaiu.androidthreaddowanzip.learnthreads;
 
 import android.content.Context;
-import android.util.Log;
-import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 /**
  * 学习线程
