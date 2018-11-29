@@ -30,4 +30,8 @@ dependencies {
     compile('com.arialyy.aria:aria-core:3.5.1'){
         exclude group: 'com.android.support'
     }
+    // zip4j
+    // https://mvnrepository.com/artifact/net.lingala.zip4j/zip4j
+    compile group: 'net.lingala.zip4j', name: 'zip4j', version: '1.3.2'
+
 }

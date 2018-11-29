@@ -11,46 +11,41 @@ import com.ihaiu.androidthreaddowanzip.R;
 import com.game.archiver.Archiver;
 import com.game.archiver.IArchiverListener;
 
-public class LearnZip
+public class LearnAssetCopy
 {
 
     public AppCompatActivity context;
-    public String zipPath;
-    public String outPath;
 
 
-    public LearnZip setContext(AppCompatActivity context)
+    public LearnAssetCopy setContext(AppCompatActivity context)
     {
         this.context = context;
         return  this;
     }
-    public LearnZip setZipFilePath(String path)
+
+
+    public String TAG = "LearnAssetCopy";
+
+    public Button assetsCopyStartButton;
+    public ProgressBar assetsCopyProgressBar;
+    public TextView assetsCopyProgressText;
+
+    public LearnAssetCopy init()
     {
-        this.zipPath = path;
-        outPath = zipPath.replace(".zip", "");
-        return  this;
-    }
+        assetsCopyStartButton = context.findViewById(R.id.assetsCopyStartButton);
+        assetsCopyProgressBar = context.findViewById(R.id.assetsCopyProgressBar);
+        assetsCopyProgressText = context.findViewById(R.id.assetsCopyProgressText);
 
+        final String assetsPath = "www";
+        final String savePath =  context.getFilesDir().getAbsolutePath() + "/www";
 
-    public String TAG = "LearnZip";
-
-    public Button zipStartButton;
-    public ProgressBar zipProgressBar;
-    public TextView zipProgressText;
-
-    public LearnZip init()
-    {
-        zipStartButton = context.findViewById(R.id.zipStartButton);
-        zipProgressBar = context.findViewById(R.id.zipProgressBar);
-        zipProgressText = context.findViewById(R.id.zipProgressText);
-
-        zipStartButton.setOnClickListener(new View.OnClickListener()
+        assetsCopyStartButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
                 try {
-                    Archiver.unArchiver(zipPath, outPath, "", new IArchiverListener() {
+                    Archiver.assetsCopyTo(context, assetsPath, savePath,133537339, new IArchiverListener() {
                         @Override
                         public void onArchiverPre()
                         {
@@ -60,8 +55,8 @@ public class LearnZip
                         @Override
                         public void onArchiverStart()
                         {
-                            zipProgressBar.setProgress(0);
-                            zipProgressText.setText(String.format("%d%%", 0));
+                            assetsCopyProgressBar.setProgress(0);
+                            assetsCopyProgressText.setText(String.format("%d%%", 0));
                         }
 
                         @Override
@@ -70,16 +65,16 @@ public class LearnZip
                             int percent = (int)((current * 1f / total) * 100);
 
 
-                            zipProgressBar.setMax(total);
-                            zipProgressBar.setProgress(current);
-                            zipProgressText.setText(String.format("%d%%  (%d/%d)", percent, current, total));
+                            assetsCopyProgressBar.setMax(total);
+                            assetsCopyProgressBar.setProgress(current);
+                            assetsCopyProgressText.setText(String.format("%d%%  (%d/%d)", percent, current, total));
                         }
 
                         @Override
                         public void onArchiverComplete()
                         {
-//                            zipProgressBar.setProgress(100);
-//                            zipProgressText.setText(String.format("%d%%", 100));
+//                            assetsCopyProgressBar.setProgress(100);
+//                            assetsCopyProgressText.setText(String.format("%d%%", 100));
                             setButtonState(true);
 
                         }
@@ -99,7 +94,7 @@ public class LearnZip
     }
 
     private void setButtonState(boolean startEnable) {
-        zipStartButton.setEnabled(startEnable);
+        assetsCopyStartButton.setEnabled(startEnable);
     }
 
 }
