@@ -13,7 +13,7 @@ public class Archiver
      * @param srcfile  zip文件
      * @param unrarPath 解压目录
      * @param password 密码
-     * @param password 监听消息处理器
+     * @param listener 监听消息处理器
      */
     public static ArchiverManager unArchiver(String srcfile, String unrarPath, String password, IArchiverListener listener)
     {
